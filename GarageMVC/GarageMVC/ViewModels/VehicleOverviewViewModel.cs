@@ -13,6 +13,7 @@ namespace GarageMVC.ViewModels
         public DateTime TimeStamp { get; }
         public VehicleOverviewViewModel(ParkedVehicleModel parkedVehicle)
         {
+            Id = parkedVehicle.Id;
             Type = parkedVehicle.Type;
             RegistrationNumber = parkedVehicle.RegistrationNumber;
             TimeStamp = parkedVehicle.TimeStamp;

@@ -1,51 +1,8 @@
-﻿@using GarageMVC.ViewModels
-@model OverviewPageViewModel
-@{
+﻿﻿@{
     ViewData["Title"] = "Home Page";
 }
 
-<div >
+<div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>
-        <a asp-controller = "ParkedVehicle" asp-action="Create">Park a vehicle</a>
-    </p>
-    <p>
-        There are @Model.PlacesRemaining spots remaining.
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.VehicleOverviews.First().Type)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VehicleOverviews.First().RegistrationNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VehicleOverviews.First().TimeStamp)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.VehicleOverviews)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RegistrationNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TimeStamp)
-                    </td>
-                    <td>
-                    <td>
-                        <a asp-controller= "ParkedVehicle" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
