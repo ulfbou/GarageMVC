@@ -11,5 +11,6 @@ namespace GarageMVC.Models
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public int NumberOfWheels { get; set; } = default!;
+        public DateTime TimeStamp { get; set; } = default!;
     }
 }
