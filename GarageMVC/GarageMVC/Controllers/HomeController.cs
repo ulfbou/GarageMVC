@@ -1,4 +1,5 @@
 using GarageMVC.Models;
+using GarageMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,8 @@ namespace GarageMVC.Controllers
 
         public IActionResult Index()
         {
-            return View();
+
+            return View(new OverviewPageViewModel() {PlacesRemaining = 0, VehicleOverviews = new List<VehicleOverviewViewModel>() });
         }
 
         public IActionResult Privacy()
