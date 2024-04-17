@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MvH3l2BfmIMhi+SE+q8QEQZdvJ3VLgv90ZQVmmstGZplqW/Kry8tmmA2FkfaoniBYtudMJdABN22mWSHejoPeQ==",
+  "dgSpecHash": "gFYXA8upKXuH2ogpTirbMzuOIpRV7B3QF7v1oSYjqPU+ygJuIUasd4HYe3tSUW+rhxa4avqSQKeZ+Aj8GuurFg==",
   "success": true,
-  "projectFilePath": "D:\\source\\Lexicon.NET-2024\\Exercises\\GarageMVC\\GarageMVC\\GarageMVC\\GarageMVC.csproj",
+  "projectFilePath": "/home/rj/lexicon/GarageMVC/GarageMVC/GarageMVC/GarageMVC.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
