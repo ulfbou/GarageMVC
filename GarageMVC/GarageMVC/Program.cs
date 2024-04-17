@@ -1,7 +1,6 @@
 using GarageMVC.Data;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace GarageMVC
 {
     public class Program
@@ -35,7 +34,7 @@ namespace GarageMVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Garage}/{action=Index}/{id?}");
 
             app.Run();
         }
