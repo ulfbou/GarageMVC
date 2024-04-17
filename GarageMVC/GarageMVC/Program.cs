@@ -1,3 +1,6 @@
+using GarageMVC.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace GarageMVC
 {
     public class Program
@@ -5,9 +8,12 @@ namespace GarageMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<GarageContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
@@ -28,7 +34,7 @@ namespace GarageMVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Garage}/{action=Index}/{id?}");
 
             app.Run();
         }
