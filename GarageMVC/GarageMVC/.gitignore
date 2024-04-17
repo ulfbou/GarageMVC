@@ -8,6 +8,7 @@
 *.fslproj
 .mono
 
+obj/*
 # Temporary files
 *~
 *.tmp

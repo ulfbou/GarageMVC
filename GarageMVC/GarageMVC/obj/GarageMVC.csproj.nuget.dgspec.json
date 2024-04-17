@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/home/rj/lexicon/GarageMVC/GarageMVC/GarageMVC/GarageMVC.csproj": {}
+    "C:\\Users\\yo-re\\Documents\\prog\\cs\\group3\\GarageMVC\\GarageMVC\\GarageMVC\\GarageMVC.csproj": {}
   },
   "projects": {
-    "/home/rj/lexicon/GarageMVC/GarageMVC/GarageMVC/GarageMVC.csproj": {
+    "C:\\Users\\yo-re\\Documents\\prog\\cs\\group3\\GarageMVC\\GarageMVC\\GarageMVC\\GarageMVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/rj/lexicon/GarageMVC/GarageMVC/GarageMVC/GarageMVC.csproj",
+        "projectUniqueName": "C:\\Users\\yo-re\\Documents\\prog\\cs\\group3\\GarageMVC\\GarageMVC\\GarageMVC\\GarageMVC.csproj",
         "projectName": "GarageMVC",
-        "projectPath": "/home/rj/lexicon/GarageMVC/GarageMVC/GarageMVC/GarageMVC.csproj",
-        "packagesPath": "/home/rj/.nuget/packages/",
-        "outputPath": "/home/rj/lexicon/GarageMVC/GarageMVC/GarageMVC/obj/",
+        "projectPath": "C:\\Users\\yo-re\\Documents\\prog\\cs\\group3\\GarageMVC\\GarageMVC\\GarageMVC\\GarageMVC.csproj",
+        "packagesPath": "C:\\Users\\yo-re\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\yo-re\\Documents\\prog\\cs\\group3\\GarageMVC\\GarageMVC\\GarageMVC\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/home/rj/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\yo-re\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -42,6 +49,28 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -61,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/rj/dotnet/sdk/8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

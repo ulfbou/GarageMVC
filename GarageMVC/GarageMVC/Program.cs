@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using GarageMVC.Data;
 namespace GarageMVC
 {
     public class Program
@@ -5,6 +8,8 @@ namespace GarageMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<CarContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CarContext") ?? throw new InvalidOperationException("Connection string 'CarContext' not found.")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
