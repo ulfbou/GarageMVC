@@ -55,20 +55,23 @@ namespace GarageMVC.Controllers
         }
 
 
-        // POST: Garage/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels")] ParkedVehicleModel parkedVehicleModel)
+        public ActionResult Create(ParkedVehicleModel vehicle)
         {
+            if (_context.ParkedVehicles.Any(v => v.RegistrationNumber == vehicle.RegistrationNumber))
+            {
+                ModelState.AddModelError("RegistrationNumber", "Registration number must be unique");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(parkedVehicleModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                vehicle.TimeStamp = DateTime.UtcNow;
+                _context.ParkedVehicles.Add(vehicle);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(parkedVehicleModel);
+
+            return View(vehicle);
         }
 
         // GET: Garage/Edit/5
