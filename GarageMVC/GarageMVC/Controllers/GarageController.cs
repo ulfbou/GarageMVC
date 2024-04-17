@@ -13,10 +13,13 @@ namespace GarageMVC.Controllers
     public class GarageController : Controller
     {
         private readonly GarageContext _context;
+        private readonly VehicleConstants _constants;
 
-        public GarageController(GarageContext context)
+        public GarageController(GarageContext context, IConfiguration configuration)
         {
             _context = context;
+            _constants = new VehicleConstants(configuration);
+                //(configuration);     // For use with /Garage/Create
         }
 
         // GET: Garage
@@ -44,10 +47,13 @@ namespace GarageMVC.Controllers
         }
 
         // GET: Garage/Create
+        [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.VehicleConstants = _constants;
             return View();
         }
+
 
         // POST: Garage/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
