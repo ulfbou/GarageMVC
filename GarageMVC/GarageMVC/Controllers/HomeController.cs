@@ -16,8 +16,13 @@ namespace GarageMVC.Controllers
 
         public IActionResult Index()
         {
-
-            return View(new OverviewPageViewModel() {PlacesRemaining = 0, VehicleOverviews = new List<VehicleOverviewViewModel>() });
+            IEnumerable<VehicleOverviewViewModel> vehicleOverviews = new List<VehicleOverviewViewModel>()
+            {
+                new VehicleOverviewViewModel(new ParkedVehicleModel(){Id = 0, Type = "Car", RegistrationNumber = "ABC123", TimeStamp = new DateTime(2024,1,1) }),
+                new VehicleOverviewViewModel(new ParkedVehicleModel(){Id = 1, Type = "Motorcycle", RegistrationNumber = "DEF456", TimeStamp = new DateTime(2024,1,2) }),
+                new VehicleOverviewViewModel(new ParkedVehicleModel(){Id = 2, Type = "Truck", RegistrationNumber = "GHI789", TimeStamp = new DateTime(2024,1,3) })
+            };
+            return View(new OverviewPageViewModel() {PlacesRemaining = 0, VehicleOverviews =vehicleOverviews });
         }
 
         public IActionResult Privacy()
