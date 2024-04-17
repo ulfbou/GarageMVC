@@ -67,7 +67,7 @@ namespace GarageMVC.Controllers
             {
                 vehicle.TimeStamp = DateTime.UtcNow;
                 _context.ParkedVehicles.Add(vehicle);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
