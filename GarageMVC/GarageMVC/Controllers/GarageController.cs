@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GarageMVC.Data;
 using GarageMVC.Models;
+using GarageMVC.ViewModels;
 
 namespace GarageMVC.Controllers
 {
@@ -25,7 +26,8 @@ namespace GarageMVC.Controllers
         // GET: Garage
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ParkedVehicles.ToListAsync());
+            IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
+            return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
         }
 
         // GET: Garage/Details/5
