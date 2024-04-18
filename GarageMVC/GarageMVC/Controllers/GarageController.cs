@@ -160,6 +160,15 @@ namespace GarageMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchByRegistrationNumber(string registrationNumber)
+        {
+            ParkedVehicleModel? searchResult = (await _context.ParkedVehicles.Where(v => v.RegistrationNumber == registrationNumber).ToListAsync()).FirstOrDefault();
+            if (searchResult == null)
+                return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), new {id = searchResult.Id });
+        }
+
         private bool ParkedVehicleModelExists(int id)
         {
             return _context.ParkedVehicles.Any(e => e.Id == id);

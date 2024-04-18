@@ -12,6 +12,10 @@
     <p>
         There are @Model.PlacesRemaining spots remaining.
     </p>
+    <form asp-controller="Garage" asp-action="SearchByRegistrationNumber">
+        <input name="registrationNumber" />
+        <button>Search</button>
+    </form>
     <table class="table">
         <thead>
             <tr>
