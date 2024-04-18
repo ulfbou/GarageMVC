@@ -6,6 +6,12 @@
 
 <div >
     <h1 class="display-4">Welcome</h1>
+    @if(!String.IsNullOrEmpty(Model.SituationSpecificMessage))
+    {
+        <p>
+            @Model.SituationSpecificMessage
+        </p>
+    }
     <p>
         <a asp-controller = "Garage" asp-action="Create">Park a vehicle</a>
     </p>
