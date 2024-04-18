@@ -117,8 +117,8 @@ namespace GarageMVC.Controllers
             return View(parkedVehicleModel);
         }
 
-        // GET: Garage/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Garage/CheckOut/5
+        public async Task<IActionResult> CheckOut(int? id)
         {
             if (id == null)
             {
@@ -136,18 +136,31 @@ namespace GarageMVC.Controllers
             DateTime currentTime = DateTime.Now;
 
             TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
+            string tot = "";
 
 
+            int hours = ParkedDuration.Hours;
+            int minutes = ParkedDuration.Minutes;
 
 
-            parkedVehicleModel.ParkedDuration = ParkedDuration.TotalMinutes;
+            if (hours == 0 && minutes > 0)
+            {
+                tot = string.Format( minutes + " minutes");
+            }
+            else if (hours > 0)
+            {
+                tot = string.Format("{1:00} hours & {1:00} minutes", hours, minutes);
+            }
+
+
+            parkedVehicleModel.ParkedDuration = tot;
 
             return View(parkedVehicleModel);
 
         }
 
-        // POST: Garage/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Garage/CheckOut/5
+        [HttpPost, ActionName("CheckOut")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
