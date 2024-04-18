@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GarageMVC.Data;
 using GarageMVC.Models;
+using NuGet.Packaging.Signing;
 
 namespace GarageMVC.Controllers
 {
@@ -131,7 +132,18 @@ namespace GarageMVC.Controllers
                 return NotFound();
             }
 
+            // Getting current time to calculate tot time
+            DateTime currentTime = DateTime.Now;
+
+            TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
+
+
+
+
+            parkedVehicleModel.ParkedDuration = ParkedDuration.TotalMinutes;
+
             return View(parkedVehicleModel);
+
         }
 
         // POST: Garage/Delete/5

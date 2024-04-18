@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 namespace GarageMVC.Models
 {
     public class ParkedVehicleModel
     {
+        public double ParkedDuration;
+
         [Key]
         public int Id { get; set; }
         public string Type { get; set; } = string.Empty;
@@ -12,5 +14,9 @@ namespace GarageMVC.Models
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public int NumberOfWheels { get; set; } = default!;
+
+        [ReadOnly(true)]
+        public DateTime TimeStamp { get; private set; } = DateTime.Now;
+        //public DateTime TimeStamp { get; set; } = default!;
     }
 }
