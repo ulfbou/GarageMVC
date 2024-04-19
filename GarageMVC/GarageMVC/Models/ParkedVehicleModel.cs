@@ -25,7 +25,6 @@ namespace GarageMVC.Models
 
 		[RegularExpression(@"^[A-Z]{3}[0-9]{3}$", ErrorMessage = "Registeration Number is combination of 3 letters and 3 numbers. ex: ABC123")]
 		public string RegistrationNumber { get; set; } = string.Empty;
-
 		public DateTime TimeStamp { get; private set; } = DateTime.Now;
 
 		internal string ParkedDuration = string.Empty;
