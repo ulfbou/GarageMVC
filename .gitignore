@@ -1,7 +1,0 @@
-./GarageMVC/GarageMVC/obj/*
-.mono
-./GarageMVC/GarageMVC/bin/*
-./GarageMVC/GarageMVC/Properties/*
-./GarageMVC/GarageMVC/Release/*
-./GarageMVC/GarageMVC/Debug/*
-/.vs
