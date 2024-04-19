@@ -6,12 +6,23 @@
 
 <div >
     <h1 class="display-4">Welcome</h1>
+    @if(!String.IsNullOrEmpty(Model.SituationSpecificMessage))
+    {
+        <p>
+            @Model.SituationSpecificMessage
+        </p>
+    }
     <p>
         <a asp-controller = "Garage" asp-action="Create">Park a vehicle</a>
     </p>
     <p>
         There are @Model.PlacesRemaining spots remaining.
     </p>
+    <form asp-controller="Garage" asp-action="SearchByRegistrationNumber">
+        <label>Registration number</label>
+        <input name="registrationNumber" />
+        <button>Search</button>
+    </form>
     <table class="table">
         <thead>
             <tr>
