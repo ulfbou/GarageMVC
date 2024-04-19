@@ -10,8 +10,6 @@ namespace GarageMVC
             var builder = WebApplication.CreateBuilder(args);
             var configuration = builder.Configuration;
 
-            //Test
-
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<VehicleConstants>();
