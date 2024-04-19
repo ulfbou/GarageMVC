@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GarageMVC.Data;
 using GarageMVC.Models;
 using NuGet.Packaging.Signing;
+using Humanizer;
 
 namespace GarageMVC.Controllers
 {
@@ -136,24 +137,44 @@ namespace GarageMVC.Controllers
             DateTime currentTime = DateTime.Now;
 
             TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
-            string tot = "";
+            string cost = "";
 
 
             int hours = ParkedDuration.Hours;
             int minutes = ParkedDuration.Minutes;
+            string parkedTime = string.Format("{0:00} hours & {1:00} minutes", hours, minutes);
+            string parkedAt = $"{parkedVehicleModel.TimeStamp:yyyy-MM-dd HH:mm}";
 
-
-            if (hours == 0 && minutes > 0)
+            // if parked less than an hour
+            // then count as one hour
+            if (hours < 1)
             {
-                tot = string.Format( minutes + " minutes");
+
+                cost = ParkedVehicleModel.pricePerHour + " SEK";
             }
-            else if (hours > 0)
+
+            // if parked more than an hour
+            else if (hours >= 1)
             {
-                tot = string.Format("{1:00} hours & {1:00} minutes", hours, minutes);
+                // if minutes are less than 30
+                // count it as half an hour extra
+                if (minutes < 30)
+                {
+                    double roundHour = hours + 0.5;
+                    cost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2) + " SEK";
+                }
+                // else count it as one hour extra
+                else
+                {
+                    int roundHour = hours + 1;
+                    cost = (ParkedVehicleModel.pricePerHour * roundHour) + " SEK";
+                }
             }
 
 
-            parkedVehicleModel.ParkedDuration = tot;
+            parkedVehicleModel.ParkedDuration = parkedTime;
+            parkedVehicleModel.TotalCost = cost;
+            parkedVehicleModel.parkedAt = parkedAt;
 
             return View(parkedVehicleModel);
 
