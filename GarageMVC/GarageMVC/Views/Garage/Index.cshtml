@@ -4,25 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
-<div >
-    <h1 class="display-4">Welcome</h1>
+
+<div "container h-100 d-flex justify-content-center">
+    <div class="jumbotron">
+        <h1>Welcome</h1>
+        <p>To the GarageMVC parking</p>
+        <p>
+            <a asp-controller="Garage" asp-action="Create">Park a vehicle</a>
+        </p>
+    </div>
     @if(!String.IsNullOrEmpty(Model.SituationSpecificMessage))
     {
         <p>
             @Model.SituationSpecificMessage
         </p>
     }
-    <p>
-        <a asp-controller = "Garage" asp-action="Create">Park a vehicle</a>
-    </p>
-    <p>
+  
+   <p>
         There are @Model.PlacesRemaining spots remaining.
     </p>
+    <div class="table-responsive">
     <form asp-controller="Garage" asp-action="SearchByRegistrationNumber">
         <label>Registration number</label>
         <input name="registrationNumber" />
-        <button>Search</button>
+        <button type="button" class="btn btn-primary">Search</button>
     </form>
+    </div>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -57,6 +65,11 @@
                     </td>
                 </tr>
             }
+
+             
         </tbody>
     </table>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </div>
