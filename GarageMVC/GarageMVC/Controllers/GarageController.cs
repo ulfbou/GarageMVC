@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using GarageMVC.Data;
 using GarageMVC.Models;
 using GarageMVC.ViewModels;
+using NuGet.Packaging.Signing;
+using Humanizer;
 
 namespace GarageMVC.Controllers
 {
@@ -139,8 +141,8 @@ namespace GarageMVC.Controllers
             return View(parkedVehicleModel);
         }
 
-        // GET: Garage/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Garage/CheckOut/5
+        public async Task<IActionResult> CheckOut(int? id)
         {
             if (id == null)
             {
@@ -154,11 +156,55 @@ namespace GarageMVC.Controllers
                 return NotFound();
             }
 
+            // Getting current time to calculate tot time
+            DateTime currentTime = DateTime.Now;
+
+            TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
+            string cost = "";
+
+
+            int hours = ParkedDuration.Hours;
+            int minutes = ParkedDuration.Minutes;
+            string parkedTime = string.Format("{0:00} hours & {1:00} minutes", hours, minutes);
+            string parkedAt = $"{parkedVehicleModel.TimeStamp:yyyy-MM-dd HH:mm}";
+
+            // if parked less than an hour
+            // then count as one hour
+            if (hours < 1)
+            {
+
+                cost = ParkedVehicleModel.pricePerHour + " SEK";
+            }
+
+            // if parked more than an hour
+            else if (hours >= 1)
+            {
+                // if minutes are less than 30
+                // count it as half an hour extra
+                if (minutes < 30)
+                {
+                    double roundHour = hours + 0.5;
+                    cost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2) + " SEK";
+                }
+                // else count it as one hour extra
+                else
+                {
+                    int roundHour = hours + 1;
+                    cost = (ParkedVehicleModel.pricePerHour * roundHour) + " SEK";
+                }
+            }
+
+
+            parkedVehicleModel.ParkedDuration = parkedTime;
+            parkedVehicleModel.TotalCost = cost;
+            parkedVehicleModel.parkedAt = parkedAt;
+
             return View(parkedVehicleModel);
+
         }
 
-        // POST: Garage/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Garage/CheckOut/5
+        [HttpPost, ActionName("CheckOut")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
