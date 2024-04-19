@@ -24,10 +24,10 @@ namespace GarageMVC.Controllers
         }
 
         // GET: Garage
-        public async Task<IActionResult> Index(string? situationSpecificMessage = null)
+        public async Task<IActionResult> Index()
         {
             IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
-            return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews, SituationSpecificMessage = situationSpecificMessage });
+            return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
         }
 
         // GET: Garage/Details/5
@@ -56,9 +56,8 @@ namespace GarageMVC.Controllers
             return View();
         }
 
-
         [HttpPost]
-        public ActionResult Create(ParkedVehicleModel vehicle)
+        public IActionResult Create(ParkedVehicleModel vehicle)
         {
             if (_context.ParkedVehicles.Any(v => v.RegistrationNumber == vehicle.RegistrationNumber))
             {
@@ -73,7 +72,20 @@ namespace GarageMVC.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.VehicleConstants = _constants;
             return View(vehicle);
+        }
+
+        // Used for client side validation in conjunction with Remote attribute on ParkedVehicleModel
+        [HttpGet]
+        public async Task<IActionResult> CheckRegistration(string registrationNumber)
+        {
+            if (await _context.ParkedVehicles.AnyAsync(v => v.RegistrationNumber == registrationNumber))
+            {
+                return Json($"{registrationNumber} has already been taken.");
+            }
+            
+            return Json(true);
         }
 
         // GET: Garage/Edit/5
@@ -158,15 +170,6 @@ namespace GarageMVC.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> SearchByRegistrationNumber(string registrationNumber)
-        {
-            ParkedVehicleModel? searchResult = (await _context.ParkedVehicles.Where(v => v.RegistrationNumber == registrationNumber).ToListAsync()).FirstOrDefault();
-            if (searchResult == null)
-                return RedirectToAction(nameof(Index), new {situationSpecificMessage = "The registration number was not found."});
-            return RedirectToAction(nameof(Details), new {id = searchResult.Id });
         }
 
         private bool ParkedVehicleModelExists(int id)
