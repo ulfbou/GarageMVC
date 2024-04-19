@@ -10,8 +10,9 @@ namespace GarageMVC.Data
     /// </summary>
     public class VehicleConstants
     {
+        
         private readonly Dictionary<string, string[]> _constants;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleConstants"/> class 
         /// with the provided application configuration.
@@ -51,12 +52,12 @@ namespace GarageMVC.Data
                     });
 
             // Check for mandatory keys.
-            if (!_constants.ContainsKey("Color"))
+            if (!_constants.ContainsKey("Colors"))
             {
                 throw new InvalidOperationException("Configuration error: Missing Color.");
             }
 
-            if (!_constants.ContainsKey("Type"))
+            if (!_constants.ContainsKey("Types"))
             {
                 throw new InvalidOperationException("Configuration error: Missing Type.");
             }
