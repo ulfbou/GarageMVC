@@ -56,6 +56,14 @@ namespace GarageMVC.Controllers
             return View();
         }
 
+        public async Task<IActionResult> CheckRegistrationNumber(string registrationNumber)
+        {
+            if (await _context.ParkedVehicles.AnyAsync(v => v.RegistrationNumber == registrationNumber))
+            {
+                return Json($"{registrationNumber} is already parked.");
+            }
+            return Json(true);
+        }
 
         [HttpPost]
         public ActionResult Create(ParkedVehicleModel vehicle)

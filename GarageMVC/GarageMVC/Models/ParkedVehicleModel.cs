@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace GarageMVC.Models
 {
@@ -15,6 +16,7 @@ namespace GarageMVC.Models
         public string Color { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Registration number is required.")]
+        [Remote(action: "CheckRegistrationNumber", controller: "Garage")]
         public string RegistrationNumber { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Brand is required.")]
