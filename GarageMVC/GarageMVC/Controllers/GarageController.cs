@@ -59,7 +59,8 @@ namespace GarageMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ParkedVehicleModel vehicle)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(ParkedVehicleModel vehicle)
         {
             if (_context.ParkedVehicles.Any(v => v.RegistrationNumber == vehicle.RegistrationNumber))
             {
