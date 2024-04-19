@@ -76,6 +76,7 @@ namespace GarageMVC.Controllers
             return View(vehicle);
         }
 
+        // Used for client side validation in conjunction with Remote attribute on ParkedVehicleModel
         [HttpGet]
         public async Task<IActionResult> CheckRegistration(string registrationNumber)
         {
