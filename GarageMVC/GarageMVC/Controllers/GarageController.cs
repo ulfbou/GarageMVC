@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GarageMVC.Data;
 using GarageMVC.Models;
+using GarageMVC.ViewModels;
 using NuGet.Packaging.Signing;
 using Humanizer;
 
@@ -15,16 +16,20 @@ namespace GarageMVC.Controllers
     public class GarageController : Controller
     {
         private readonly GarageContext _context;
+        private readonly VehicleConstants _constants;
 
-        public GarageController(GarageContext context)
+        public GarageController(GarageContext context, IConfiguration configuration)
         {
             _context = context;
+            _constants = new VehicleConstants(configuration);
+                //(configuration);     // For use with /Garage/Create
         }
 
         // GET: Garage
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ParkedVehicles.ToListAsync());
+            IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
+            return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
         }
 
         // GET: Garage/Details/5
@@ -46,25 +51,43 @@ namespace GarageMVC.Controllers
         }
 
         // GET: Garage/Create
+        [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.VehicleConstants = _constants;
             return View();
         }
 
-        // POST: Garage/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels")] ParkedVehicleModel parkedVehicleModel)
+        public IActionResult Create(ParkedVehicleModel vehicle)
         {
+            if (_context.ParkedVehicles.Any(v => v.RegistrationNumber == vehicle.RegistrationNumber))
+            {
+                ModelState.AddModelError("RegistrationNumber", "Registration number must be unique");
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Add(parkedVehicleModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                vehicle.TimeStamp = DateTime.Now;
+                _context.ParkedVehicles.Add(vehicle);
+                _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            return View(parkedVehicleModel);
+
+            ViewBag.VehicleConstants = _constants;
+            return View(vehicle);
+        }
+
+        // Used for client side validation in conjunction with Remote attribute on ParkedVehicleModel
+        [HttpGet]
+        public async Task<IActionResult> CheckRegistration(string registrationNumber)
+        {
+            if (await _context.ParkedVehicles.AnyAsync(v => v.RegistrationNumber == registrationNumber))
+            {
+                return Json($"{registrationNumber} has already been taken.");
+            }
+            
+            return Json(true);
         }
 
         // GET: Garage/Edit/5

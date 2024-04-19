@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Create";
+    var vehicleConstants = ViewBag.VehicleConstants as GarageMVC.Data.VehicleConstants;
+    var types = vehicleConstants?["Types"];
+    var colors = vehicleConstants?["Colors"];
+
+    if (ViewBag.RegistrationNumbers is not null)
+    {
+        var regNums = (IEnumerable<string>)ViewBag.RegistrationNumbers;
+    }
+    <!-- Use 'types' and 'colors' in your select elements -->
 }
 
 <h1>Create</h1>
@@ -14,18 +23,35 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
+                
+                <select asp-for="Type" class="form-control">
+                    @if (types is not null)
+                    {
+                        @foreach(var type in types)
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    }
+                    '</select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Color" class="control-label"></label>
-                <input asp-for="Color" class="form-control" />
+                <select asp-for="Color" class="form-control">
+                    @if (colors is not null)
+                    {
+                        @foreach(var color in colors)
+                        {
+                            <option value="@color">@color</option>
+                        }
+                    }
+                </select>
                 <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RegistrationNumber" class="control-label"></label>
                 <input asp-for="RegistrationNumber" class="form-control" />
-                <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+                <span asp-validation-for="RegistrationNumber" id="registration-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Brand" class="control-label"></label>
@@ -52,7 +78,23 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+@*
+<script >
 
+}
+    if (@regNums !== undefined) {
+        var element = $("#RegistrationNumber");
+        if (@regNums.Contains()
+            .includes(element.text)) {
+            event.preventDefault();
+            // Prevent form submission
+            document.getElementById("registration-error").style.display =
+                "block"
+                ;
+        }
+    }
+</script>
+*@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
