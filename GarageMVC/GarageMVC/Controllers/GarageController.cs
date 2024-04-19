@@ -16,12 +16,12 @@ namespace GarageMVC.Controllers
 {
     public class GarageController : Controller
     {
-        private readonly GarageContext _context;
+        private readonly IGarageContext _context;
         private readonly VehicleConstants _constants;
 
         public object SumOfAllWheels { get; private set; }
 
-        public GarageController(GarageContext context, IConfiguration configuration)
+        public GarageController(IGarageContext context, IConfiguration configuration)
         {
             _context = context;
             _constants = new VehicleConstants(configuration);

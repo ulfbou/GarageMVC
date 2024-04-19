@@ -19,7 +19,7 @@ namespace GarageMVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<VehicleConstants>();
-            builder.Services.AddDbContext<GarageContext>(options =>
+            builder.Services.AddDbContext<IGarageContext, GarageContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
