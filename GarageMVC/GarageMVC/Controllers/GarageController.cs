@@ -56,9 +56,8 @@ namespace GarageMVC.Controllers
             return View();
         }
 
-
         [HttpPost]
-        public ActionResult Create(ParkedVehicleModel vehicle)
+        public IActionResult Create(ParkedVehicleModel vehicle)
         {
             if (_context.ParkedVehicles.Any(v => v.RegistrationNumber == vehicle.RegistrationNumber))
             {
@@ -73,6 +72,7 @@ namespace GarageMVC.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.VehicleConstants = _constants;
             return View(vehicle);
         }
 
