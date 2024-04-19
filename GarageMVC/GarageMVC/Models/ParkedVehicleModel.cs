@@ -15,6 +15,7 @@ namespace GarageMVC.Models
         public string Brand { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public int NumberOfWheels { get; set; } = default!;
+<<<<<<< HEAD
 
 
         [RegularExpression(@"^[A-Z]{3}[0-9]{3}$", ErrorMessage = "Registeration Number is combination of 3 letters and 3 numbers. ex: ABC123")]
@@ -26,5 +27,8 @@ namespace GarageMVC.Models
         [ReadOnly(true)]
         public DateTime TimeStamp { get; private set; } = DateTime.Now;
         //public DateTime TimeStamp { get; set; } = default!;
+=======
+        public DateTime TimeStamp { get; set; } = default!;
+>>>>>>> 743d160d9eea022fcd2a935ed7850fa10c903681
     }
 }
