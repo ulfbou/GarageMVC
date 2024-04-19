@@ -22,11 +22,14 @@
    <p>
         There are @Model.PlacesRemaining spots remaining.
     </p>
+    <div class="table-responsive">
     <form asp-controller="Garage" asp-action="SearchByRegistrationNumber">
         <label>Registration number</label>
         <input name="registrationNumber" />
         <button type="button" class="btn btn-primary">Search</button>
     </form>
+    </div>
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -66,4 +69,5 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         </tbody>
     </table>
+    </div>
 </div>
