@@ -163,7 +163,7 @@ namespace GarageMVC.Controllers
             string cost = "";
 
 
-            int hours = ParkedDuration.Hours;
+            int hours = (int)ParkedDuration.TotalHours;
             int minutes = ParkedDuration.Minutes;
             string parkedTime = string.Format("{0:00} hours & {1:00} minutes", hours, minutes);
             string parkedAt = $"{parkedVehicleModel.TimeStamp:yyyy-MM-dd HH:mm}";
@@ -174,9 +174,8 @@ namespace GarageMVC.Controllers
             {
                 cost = ParkedVehicleModel.pricePerHour + " SEK";
             }
-
             // if parked more than an hour
-            else if (hours >= 1)
+            else if ( hours >= 1)
             {
                 // if minutes are less than 30
                 // count it as half an hour extra
@@ -186,7 +185,7 @@ namespace GarageMVC.Controllers
                     cost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2) + " SEK";
                 }
                 // else count it as one hour extra
-                else
+                else if (minutes >= 30)
                 {
                     int roundHour = hours + 1;
                     cost = (ParkedVehicleModel.pricePerHour * roundHour) + " SEK";
