@@ -31,6 +31,5 @@ namespace GarageMVC.Models
 		internal string TotalCost = string.Empty;
 		internal static int pricePerHour = 15;
 		internal string parkedAt = string.Empty;
-		internal int SpotNumber = default!;
 	}
 }
