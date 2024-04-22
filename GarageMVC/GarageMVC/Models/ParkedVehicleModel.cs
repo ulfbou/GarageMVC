@@ -28,7 +28,7 @@ namespace GarageMVC.Models
 		public DateTime TimeStamp { get; private set; } = DateTime.Now;
 
 		internal string ParkedDuration = string.Empty;
-		public int TotalCost { get; set; }
+		internal int TotalCost;
 		internal static int pricePerHour = 15;
 		internal string parkedAt = string.Empty;
 		[Required(ErrorMessage = "Parking Spot Number is required.")]
