@@ -103,6 +103,7 @@ namespace GarageMVCSeleniumTests
             Driver.FindElement(By.Name("Brand")).SendKeys("Volvo");
             Driver.FindElement(By.Name("Model")).SendKeys("ÖV4");
             Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.Name("ParkingSpotNumber")).SendKeys("1");
             Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
             Assert.That(Driver.PageSource.Contains("Welcome"));
             Assert.That(Driver.PageSource.Contains("ABC123"));
