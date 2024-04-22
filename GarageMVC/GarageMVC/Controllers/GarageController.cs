@@ -99,7 +99,7 @@ namespace GarageMVC.Controllers
             {
                 VehicleType = vehicles.Select(v => v.Type).ToList(),
                 SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
-               /* SumOfPrice = vehicles.Select(v => v.TotalCost).Sum() */
+                SumOfPrice = vehicles.Select(v => v.TotalCost).Sum()
             };
 
 
@@ -207,7 +207,7 @@ namespace GarageMVC.Controllers
             // then count as one hour
             if (hours < 1)
             {
-                TotalCost = ParkedVehicleModel.pricePerHour;
+                totalCost = ParkedVehicleModel.pricePerHour;
                 // cost = TotalCost + " SEK";
             }
             // if parked more than an hour
@@ -218,7 +218,7 @@ namespace GarageMVC.Controllers
                 if (minutes < 30)
                 {
                     double roundHour = hours + 0.5;
-                    totalCost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2);
+                    totalCost = (int)Math.Round(ParkedVehicleModel.pricePerHour * roundHour, 2);
                     // cost = totalCost + " SEK";
                 }
                 // else count it as one hour extra
