@@ -67,6 +67,13 @@ namespace GarageMVC.Controllers
                 ModelState.AddModelError("RegistrationNumber", "Registration number must be unique");
             }
 
+            if (_context.ParkedVehicles.Any(v => v.ParkingSpotNumber == vehicle.ParkingSpotNumber))
+            {
+                ModelState.AddModelError("ParkingSpotNumber", "Spot number is occupied. Please choose another one.");
+                return View(vehicle);
+            }
+
+
             if (ModelState.IsValid)
             {
                 // vehicle.TimeStamp = DateTime.Now;
@@ -91,14 +98,6 @@ namespace GarageMVC.Controllers
             return Json(true);
         }
 
-        public async Task<IActionResult> IsSpotAvailable(int parkingSpotNumber)
-        {
-            // Check if any parked vehicle has the provided parking spot number
-            bool isAvailable = !await _context.ParkedVehicles.AnyAsync(pv => pv.ParkingSpotNumber == parkingSpotNumber);
-
-            // Return a JSON response indicating availability
-            return Json(new { isAvailable = isAvailable });
-        }
 
 
         // GET: Garage/Edit/5
