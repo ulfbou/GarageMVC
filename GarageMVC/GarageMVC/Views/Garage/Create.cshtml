@@ -84,23 +84,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-@*
-<script >
 
-}
-    if (@regNums !== undefined) {
-        var element = $("#RegistrationNumber");
-        if (@regNums.Contains()
-            .includes(element.text)) {
-            event.preventDefault();
-            // Prevent form submission
-            document.getElementById("registration-error").style.display =
-                "block"
-                ;
-        }
-    }
-</script>
-*@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
