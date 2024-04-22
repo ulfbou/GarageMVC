@@ -59,12 +59,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ParkedDuration)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ParkingSpotNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ParkingSpotNumber)
+        </dd>
 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.TotalCost)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TotalCost)
+            @Html.DisplayFor(model => model.TotalCost + " SEK")
         </dd>
 
     </dl>

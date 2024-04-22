@@ -75,6 +75,11 @@
             </div>
             <br />
             <div class="form-group">
+                <label asp-for="ParkingSpotNumber" class="control-label"></label>
+                <input asp-for="ParkingSpotNumber" class="form-control" />
+                <span asp-validation-for="ParkingSpotNumber" id="registration-error" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
@@ -84,23 +89,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-@*
-<script >
 
-}
-    if (@regNums !== undefined) {
-        var element = $("#RegistrationNumber");
-        if (@regNums.Contains()
-            .includes(element.text)) {
-            event.preventDefault();
-            // Prevent form submission
-            document.getElementById("registration-error").style.display =
-                "block"
-                ;
-        }
-    }
-</script>
-*@
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

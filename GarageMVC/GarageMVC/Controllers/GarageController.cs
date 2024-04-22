@@ -62,12 +62,20 @@ namespace GarageMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ParkedVehicleModel vehicle)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(ParkedVehicleModel vehicle)
         {
             if (_context.ParkedVehicles.Any(v => v.RegistrationNumber == vehicle.RegistrationNumber))
             {
                 ModelState.AddModelError("RegistrationNumber", "Registration number must be unique");
             }
+
+            if (_context.ParkedVehicles.Any(v => v.ParkingSpotNumber == vehicle.ParkingSpotNumber))
+            {
+                ModelState.AddModelError("ParkingSpotNumber", "Spot number is occupied. Please choose another one.");
+                return View(vehicle);
+            }
+
 
             if (ModelState.IsValid)
             {
@@ -113,6 +121,9 @@ namespace GarageMVC.Controllers
             return Json(true);
         }
 
+
+
+
         // GET: Garage/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -134,7 +145,7 @@ namespace GarageMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels")] ParkedVehicleModel parkedVehicleModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels, ParkingSpotNumber")] ParkedVehicleModel parkedVehicleModel)
         {
             if (id != parkedVehicleModel.Id)
             {
@@ -183,8 +194,9 @@ namespace GarageMVC.Controllers
             DateTime currentTime = DateTime.Now;
 
             TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
-            string cost = "";
-
+            // string cost = "";
+            int totalCost = 0;
+            totalCost = parkedVehicleModel.TotalCost;
 
             int hours = (int)ParkedDuration.TotalHours;
             int minutes = ParkedDuration.Minutes;
@@ -195,7 +207,8 @@ namespace GarageMVC.Controllers
             // then count as one hour
             if (hours < 1)
             {
-                cost = ParkedVehicleModel.pricePerHour + " SEK";
+                TotalCost = ParkedVehicleModel.pricePerHour;
+                // cost = TotalCost + " SEK";
             }
             // if parked more than an hour
             else if ( hours >= 1)
@@ -205,18 +218,20 @@ namespace GarageMVC.Controllers
                 if (minutes < 30)
                 {
                     double roundHour = hours + 0.5;
-                    cost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2) + " SEK";
+                    totalCost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2);
+                    // cost = totalCost + " SEK";
                 }
                 // else count it as one hour extra
                 else if (minutes >= 30)
                 {
                     int roundHour = hours + 1;
-                    cost = (ParkedVehicleModel.pricePerHour * roundHour) + " SEK";
+                    totalCost = (ParkedVehicleModel.pricePerHour * roundHour);
+                    // cost = totalCost + " SEK";
                 }
             }
 
             parkedVehicleModel.ParkedDuration = parkedTime;
-            parkedVehicleModel.TotalCost = cost;
+            parkedVehicleModel.TotalCost = totalCost;
             parkedVehicleModel.parkedAt = parkedAt;
             return View(parkedVehicleModel);
         }
