@@ -10,6 +10,7 @@ using GarageMVC.Models;
 using GarageMVC.ViewModels;
 using NuGet.Packaging.Signing;
 using Humanizer;
+using System.Collections.Immutable;
 
 namespace GarageMVC.Controllers
 {
@@ -17,6 +18,8 @@ namespace GarageMVC.Controllers
     {
         private readonly GarageContext _context;
         private readonly VehicleConstants _constants;
+
+        public object SumOfAllWheels { get; private set; }
 
         public GarageController(GarageContext context, IConfiguration configuration)
         {
@@ -76,6 +79,26 @@ namespace GarageMVC.Controllers
 
             ViewBag.VehicleConstants = _constants;
             return View(vehicle);
+        }
+
+        // Get: Garage/Overview
+        [HttpGet]
+        public async Task<IActionResult> Overview()
+        {
+            var vehicles = await _context.ParkedVehicles.ToListAsync();
+
+            var model = new GarageOverviewViewModel
+            {
+                VehicleType = vehicles.Select(v => v.Type).ToList(),
+                SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
+               /* SumOfPrice = vehicles.Select(v => v.TotalCost).Sum() */
+            };
+
+
+
+
+
+            return View(model);
         }
 
         // Used for client side validation in conjunction with Remote attribute on ParkedVehicleModel
@@ -217,5 +240,9 @@ namespace GarageMVC.Controllers
         {
             return _context.ParkedVehicles.Any(e => e.Id == id);
         }
+
+        // POST: Garage/Overview
+
+
     }
 }
