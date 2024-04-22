@@ -97,7 +97,7 @@ namespace GarageMVC.Controllers
 
             var model = new GarageOverviewViewModel
             {
-                VehicleType = vehicles.Select(v => v.Type).ToList(),
+                VehicleType = vehicles.Select(v => v.Type).Distinct().Select(s => " " + s).ToList(),
                 SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
                 SumOfPrice = vehicles.Select(v => v.TotalCost).Sum()
             };
