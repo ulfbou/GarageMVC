@@ -31,5 +31,8 @@ namespace GarageMVC.Models
 		internal string TotalCost = string.Empty;
 		internal static int pricePerHour = 15;
 		internal string parkedAt = string.Empty;
+		[Range(1, 100, ErrorMessage = "Spot number must be between 1 and 100.")]
+		public int ParkingSpotNumber { get; set; }
+		public int maxSpotNumber = 100;
 	}
 }
