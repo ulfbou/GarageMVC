@@ -5,6 +5,7 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Safari;
+using OpenQA.Selenium.Support.UI;
 using Withywoods.WebTesting;
 
 namespace GarageMVCSeleniumTests
@@ -107,6 +108,47 @@ namespace GarageMVCSeleniumTests
             Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
             Assert.That(Driver.PageSource.Contains("Welcome"));
             Assert.That(Driver.PageSource.Contains("ABC123"));
+        }
+        [Test]
+        public void DetailsTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.LinkText("Park a vehicle")).Click();
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC125");
+            Driver.FindElement(By.Name("Brand")).SendKeys("Saab");
+            Driver.FindElement(By.Name("Model")).SendKeys("92");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            IWebElement row = Driver.FindElement(By.XPath("//td[contains(text(), 'ABC125')]/.."));
+            Assert.That(row != null);
+            row.FindElement(By.LinkText("Details")).Click();
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'RegistrationNumber')]/following::dd")).Text, Is.EqualTo("ABC125"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Brand')]/following::dd")).Text, Is.EqualTo("Saab"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Model')]/following::dd")).Text, Is.EqualTo("92"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'NumberOfWheels')]/following::dd")).Text, Is.EqualTo("4"));
+        }
+
+        [Test]
+        public void CreateWithExplicitTypeAndColorTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.LinkText("Park a vehicle")).Click();
+            new SelectElement(Driver.FindElement(By.Name("Type"))).SelectByText("Truck");
+            new SelectElement(Driver.FindElement(By.Name("Color"))).SelectByText("Red");
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC124");
+            Driver.FindElement(By.Name("Brand")).SendKeys("Scania");
+            Driver.FindElement(By.Name("Model")).SendKeys("Scania-Vabis 324");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            IWebElement row = Driver.FindElement(By.XPath("//td[contains(text(), 'ABC124')]/.."));
+            Assert.That(row != null);
+            row.FindElement(By.LinkText("Details")).Click();
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Type')]/following::dd")).Text, Is.EqualTo("Truck"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Color')]/following::dd")).Text, Is.EqualTo("Red"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'RegistrationNumber')]/following::dd")).Text, Is.EqualTo("ABC124"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Brand')]/following::dd")).Text, Is.EqualTo("Scania"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Model')]/following::dd")).Text, Is.EqualTo("Scania-Vabis 324"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'NumberOfWheels')]/following::dd")).Text, Is.EqualTo("4"));
         }
 
     }
