@@ -6,6 +6,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Safari;
 using OpenQA.Selenium.Support.UI;
+using System.Drawing.Drawing2D;
 using Withywoods.WebTesting;
 
 namespace GarageMVCSeleniumTests
@@ -151,6 +152,30 @@ namespace GarageMVCSeleniumTests
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Brand')]/following::dd")).Text, Is.EqualTo("Scania"));
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Model')]/following::dd")).Text, Is.EqualTo("Scania-Vabis 324"));
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'NumberOfWheels')]/following::dd")).Text, Is.EqualTo("4"));
+        }
+        [Test]
+        public void CreationRefusedTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.LinkText("Park a vehicle")).Click();
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'The RegistrationNumber field is required.')]")).Count, Is.EqualTo(1));
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC126");
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'The RegistrationNumber field is required.')]")).Count, Is.EqualTo(0));
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'Brand is required.')]")).Count, Is.EqualTo(1));
+            Driver.FindElement(By.Name("Brand")).SendKeys("Toyota");
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'Brand is required.')]")).Count, Is.EqualTo(0));
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'Model is required.')]")).Count, Is.EqualTo(1));
+            Driver.FindElement(By.Name("Model")).SendKeys("A1");
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'Model is required.')]")).Count, Is.EqualTo(0));
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'The NumberOfWheels field is required.')]")).Count, Is.EqualTo(1));
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'The NumberOfWheels field is required.')]")).Count, Is.EqualTo(0));
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'Parking Spot Number is required.')]")).Count, Is.EqualTo(1));
+            Driver.FindElement(By.Name("ParkingSpotNumber")).SendKeys("4");
+            Assert.That(Driver.FindElements(By.XPath("//*[contains(text(), 'Parking Spot Number is required.')]")).Count, Is.EqualTo(0));
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            Assert.That(Driver.PageSource.Contains("Welcome"));
         }
 
     }
