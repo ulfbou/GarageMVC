@@ -45,12 +45,18 @@ namespace GarageMVC.Migrations
                     b.Property<int>("NumberOfWheels")
                         .HasColumnType("int");
 
+                    b.Property<int>("ParkingSpotNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
 
                     b.Property<string>("Type")
                         .IsRequired()
