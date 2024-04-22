@@ -91,6 +91,16 @@ namespace GarageMVC.Controllers
             return Json(true);
         }
 
+        public async Task<IActionResult> IsSpotAvailable(int parkingSpotNumber)
+        {
+            // Check if any parked vehicle has the provided parking spot number
+            bool isAvailable = !await _context.ParkedVehicles.AnyAsync(pv => pv.ParkingSpotNumber == parkingSpotNumber);
+
+            // Return a JSON response indicating availability
+            return Json(new { isAvailable = isAvailable });
+        }
+
+
         // GET: Garage/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -112,7 +122,7 @@ namespace GarageMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels")] ParkedVehicleModel parkedVehicleModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels, ParkingSpotNumber")] ParkedVehicleModel parkedVehicleModel)
         {
             if (id != parkedVehicleModel.Id)
             {

@@ -74,6 +74,11 @@
                 <span asp-validation-for="NumberOfWheels" class="text-danger"></span>
             </div>
             <br />
+            <div>
+                @Html.LabelFor(m => m.ParkingSpotNumber)
+                @Html.TextBoxFor(m => m.ParkingSpotNumber, new { @class = "form-control" })
+                <span id="spotAvailability"></span>
+            </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
@@ -89,4 +94,20 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        $(document).ready(function () {
+            $("#ParkingSpotNumber").change(function () {
+                var spotNumber = $(this).val();
+                $.getJSON('@Url.Action("IsSpotAvailable", "Garage")', { parkingSpotNumber: spotNumber })
+                    .done(function (data) {
+                        if (data.isAvailable) {
+                            $("#spotAvailability").text("Spot Available!");
+                        } else {
+                            $("#spotAvailability").text("Spot Taken!");
+                        }
+                    });
+            });
+        });
+    </script>
 }
