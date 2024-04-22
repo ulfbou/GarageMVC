@@ -31,7 +31,7 @@ namespace GarageMVCSeleniumTests
                 Waff.HostUrl = $"https://localhost:{port}";
                 try
                 {
-                    Client = Waff.CreateClient();
+                    Client = Waff.WithWebHostBuilder(builder => builder.UseSetting("database", "inMemory")).CreateClient();
                     HomeUrl = Waff.HostUrl;
                     return;
                 }
@@ -93,6 +93,20 @@ namespace GarageMVCSeleniumTests
             Driver.FindElement(By.LinkText("Park a vehicle")).Click();
             Assert.That(Driver.PageSource.Contains("Park a Vehicle"));
             Assert.That(Driver.PageSource.Contains("Brand"));
+        }
+        [Test]
+        public void CreateTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.LinkText("Park a vehicle")).Click();
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC123");
+            Driver.FindElement(By.Name("Brand")).SendKeys("Volvo");
+            Driver.FindElement(By.Name("Model")).SendKeys("ÖV4");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.XPath("//input[@type='submit']")).Submit();
+            //Thread.Sleep(20000);
+            Assert.That(Driver.PageSource.Contains("Welcome"));
+            Assert.That(Driver.PageSource.Contains("ABC123"));
         }
 
     }
