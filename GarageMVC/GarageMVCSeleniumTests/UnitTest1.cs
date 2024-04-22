@@ -118,6 +118,7 @@ namespace GarageMVCSeleniumTests
             Driver.FindElement(By.Name("Brand")).SendKeys("Saab");
             Driver.FindElement(By.Name("Model")).SendKeys("92");
             Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.Name("ParkingSpotNumber")).SendKeys("2");
             Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
             IWebElement row = Driver.FindElement(By.XPath("//td[contains(text(), 'ABC125')]/.."));
             Assert.That(row != null);
@@ -139,6 +140,7 @@ namespace GarageMVCSeleniumTests
             Driver.FindElement(By.Name("Brand")).SendKeys("Scania");
             Driver.FindElement(By.Name("Model")).SendKeys("Scania-Vabis 324");
             Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.Name("ParkingSpotNumber")).SendKeys("3");
             Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
             IWebElement row = Driver.FindElement(By.XPath("//td[contains(text(), 'ABC124')]/.."));
             Assert.That(row != null);
