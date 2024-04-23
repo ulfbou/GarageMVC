@@ -4,11 +4,12 @@
     ViewData["Title"] = "Overview";
 }
 
-<h1>Overview</h1>
 
-<div>
-    <h4>GarageOverviewViewModel</h4>
-    <hr />
+
+<div class="jumbotron">
+    <h1>Garage Overview</h1>
+    <h4>Currently parked vehicles</h4>
+</div>
 
     <dl class="row">
         <dt class="col-sm-2">
@@ -45,7 +46,7 @@
             @Html.DisplayFor(model => model.SumOfAllWheels)
         </dd>
     </dl>
-</div>
+
 
 <div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
