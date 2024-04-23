@@ -6,13 +6,14 @@
 
 
 
-
 <div class=" jumbotron">
     <h1>Details</h1>
     <p>Details of parked vehicle</p>
 
 </div>
     <hr />
+
+<div class="p-3 mb-2 bg-dark text-white">
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
@@ -71,4 +72,5 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a> |
     <a asp-action="CheckOut" asp-route-id="@Model?.Id">Check Out</a>
+</div>
 </div>

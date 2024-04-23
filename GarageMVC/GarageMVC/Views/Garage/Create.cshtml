@@ -17,10 +17,9 @@
     <h1>Create</h1>
     <p>Park a Vehicle</p>
 </div>
-
-
-
 <hr />
+
+<div class="p-3 mb-2 bg-dark text-white">
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -83,6 +82,7 @@
                 <input asp-for="ParkingSpotNumber" class="form-control" />
                 <span asp-validation-for="ParkingSpotNumber" id="registration-error" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
@@ -93,7 +93,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
