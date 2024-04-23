@@ -223,5 +223,31 @@ namespace GarageMVCSeleniumTests
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Model')]/following::dd")).Text, Is.EqualTo("L1"));
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'NumberOfWheels')]/following::dd")).Text, Is.EqualTo("6"));
         }
+        [Test]
+        public void SearchTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.LinkText("Park a vehicle")).Click();
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC129");
+            Driver.FindElement(By.Name("Brand")).SendKeys("KVAB");
+            Driver.FindElement(By.Name("Model")).SendKeys("KVD440");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.Name("ParkingSpotNumber")).SendKeys("6");
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            Driver.FindElement(By.Name("registrationNumber")).SendKeys("ABC129");
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'RegistrationNumber')]/following::dd")).Text, Is.EqualTo("ABC129"));
+        }
+
+        [Test]
+        public void SearchFailedTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.Name("registrationNumber")).SendKeys("XYZ999");
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            Assert.That(Driver.PageSource.Contains("Welcome"));
+            Assert.That(Driver.PageSource.Contains("The registration number was not found."));
+
+        }
     }
 }
