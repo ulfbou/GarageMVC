@@ -26,7 +26,7 @@ namespace GarageMVC.Controllers
         }
 
         // GET: Garage
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? situationSpecificMessage = null)
         {
             IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
 
@@ -37,7 +37,7 @@ namespace GarageMVC.Controllers
             
 
 
-            return View(new OverviewPageViewModel() { PlacesRemaining = placesRemaining, VehicleOverviews = vehicleOverviews});
+            return View(new OverviewPageViewModel() { PlacesRemaining = placesRemaining, VehicleOverviews = vehicleOverviews, SituationSpecificMessage = situationSpecificMessage });
         }
 
         // GET: Garage/Details/5
@@ -253,6 +253,16 @@ namespace GarageMVC.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SearchByRegistrationNumber(string registrationNumber)
+        {
+            ParkedVehicleModel? searchResult = await _context.ParkedVehicles.FirstOrDefaultAsync(v => v.RegistrationNumber == registrationNumber);
+            if (searchResult == null)
+                return RedirectToAction(nameof(Index), new { situationSpecificMessage = "The registration number was not found." });
+            return RedirectToAction(nameof(Details), new { id = searchResult.Id });
+        }
+
 
         private bool ParkedVehicleModelExists(int id)
         {
