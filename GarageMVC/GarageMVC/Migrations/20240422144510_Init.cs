@@ -6,7 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GarageMVC.Migrations
 {
     /// <inheritdoc />
+<<<<<<<< HEAD:GarageMVC/GarageMVC/Migrations/20240422144510_Init.cs
     public partial class Init : Migration
+========
+    public partial class upd81 : Migration
+>>>>>>>> cdab36a114c7aa4bb0b73fe138818005bd57dd3f:GarageMVC/GarageMVC/Migrations/20240422140708_upd81.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
