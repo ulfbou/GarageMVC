@@ -10,7 +10,6 @@ using GarageMVC.Models;
 using GarageMVC.ViewModels;
 using NuGet.Packaging.Signing;
 using Humanizer;
-using System.Collections.Immutable;
 
 namespace GarageMVC.Controllers
 {
@@ -18,8 +17,6 @@ namespace GarageMVC.Controllers
     {
         private readonly GarageContext _context;
         private readonly VehicleConstants _constants;
-
-        public object SumOfAllWheels { get; private set; }
 
         public GarageController(GarageContext context, IConfiguration configuration)
         {
@@ -29,11 +26,18 @@ namespace GarageMVC.Controllers
         }
 
         // GET: Garage
-        public async Task<IActionResult> Index(string? situationSpecificMessage = null)
+        public async Task<IActionResult> Index()
         {
             IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
-            // return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
-            return View(new OverviewPageViewModel() { VehicleOverviews = vehicleOverviews, SituationSpecificMessage = situationSpecificMessage });
+
+            int parkedVehiclesCount = vehicleOverviews.Count();
+            int placesRemaining = ParkedVehicleModel.maxSpotNumber - parkedVehiclesCount;
+
+            List<int> parkingSpotList =  vehicleOverviews.Select(pv => pv.ParkingSpotNumber).ToList();
+            
+
+
+            return View(new OverviewPageViewModel() { PlacesRemaining = placesRemaining, VehicleOverviews = vehicleOverviews});
         }
 
         // GET: Garage/Details/5
@@ -88,28 +92,6 @@ namespace GarageMVC.Controllers
 
             ViewBag.VehicleConstants = _constants;
             return View(vehicle);
-        }
-
-        // Get: Garage/Overview
-        [HttpGet]
-        public async Task<IActionResult> Overview()
-        {
-            var vehicles = await _context.ParkedVehicles.ToListAsync();
-
-            var model = new GarageOverviewViewModel
-            {
-                VehicleTypes = vehicles.Select(v => v.Type).Distinct().Select(s => " " + s).ToList(),
-                VehicleColors = vehicles.Select(v => v.Color).Distinct().Select(s => " " + s).ToList(),
-                VehicleBrands = vehicles.Select(v => v.Brand).Distinct().Select(s => " " + s).ToList(),
-                SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
-                /* SumOfPrice = vehicles.Select(v => v.TotalCost).Sum()*/
-            };
-
-
-
-
-
-            return View(model);
         }
 
         // Used for client side validation in conjunction with Remote attribute on ParkedVehicleModel
@@ -251,23 +233,9 @@ namespace GarageMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SearchByRegistrationNumber(string registrationNumber)
-        {
-            ParkedVehicleModel? searchResult = await _context.ParkedVehicles.FirstOrDefaultAsync(v => v.RegistrationNumber == registrationNumber);
-            if (searchResult == null)
-                return RedirectToAction(nameof(Index), new { situationSpecificMessage = "The registration number was not found." });
-            return RedirectToAction(nameof(Details), new { id = searchResult.Id });
-        }
-
-
         private bool ParkedVehicleModelExists(int id)
         {
             return _context.ParkedVehicles.Any(e => e.Id == id);
         }
-
-        // POST: Garage/Overview
-
-
     }
 }

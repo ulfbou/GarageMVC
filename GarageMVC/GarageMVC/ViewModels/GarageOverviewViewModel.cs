@@ -1,4 +1,4 @@
-﻿
+
 namespace GarageMVC.ViewModels
 {
     public class GarageOverviewViewModel

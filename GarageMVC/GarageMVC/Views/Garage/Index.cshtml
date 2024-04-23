@@ -12,10 +12,6 @@
         <p>
             <a asp-controller="Garage" asp-action="Create">Park a vehicle</a>
         </p>
-
-        <p>
-            <a asp-controller="Garage" asp-action="Overview">Garage Overview</a>
-        </p>
     </div>
     @if(!String.IsNullOrEmpty(Model.SituationSpecificMessage))
     {
@@ -25,16 +21,27 @@
     }
   
    <p>
-        @* There are @Model.PlacesRemaining spots remaining. *@
-
+        There are @Model.PlacesRemaining spots remaining.
     </p>
 
-  
+    <div class="row mb-4">
+        @if (Model.VehicleOverviews != null)
+        {
+            for (int i = 1; i <= 30; i++) // Iterate from 1 to 30
+            {
+                string spotStatus = Model.VehicleOverviews.Any(pv => pv.ParkingSpotNumber == i) ? "occupied" : i.ToString();
+
+                <span class="col-sm-2"> @spotStatus</span>
+            }
+        }
+    </div>
+
+
     <div class="table-responsive">
     <form asp-controller="Garage" asp-action="SearchByRegistrationNumber">
         <label>Registration number</label>
         <input name="registrationNumber" />
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="button" class="btn btn-primary">Search</button>
     </form>
     </div>
     <div class="table-responsive">
@@ -76,15 +83,11 @@
                     <td>
                         <a asp-controller= "Garage" asp-action="Details" asp-route-id="@item.Id">Details</a>
                     </td>
-                 @*   *@
                 </tr>
-            }
-
-             
+            }             
         </tbody>
     </table>
     </div>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </div>

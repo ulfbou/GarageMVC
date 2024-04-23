@@ -1,12 +1,6 @@
 using GarageMVC.Data;
 using Microsoft.EntityFrameworkCore;
 
-//1. Create Link
-//2. Create ActionMethod in controller (endpoint)
-//3. Get data from DB
-//4. Create new ViewModel with data to display
-//5. Create View with your new ViewModel (use details template)
-
 namespace GarageMVC
 {
     public class Program
