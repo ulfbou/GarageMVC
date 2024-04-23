@@ -177,6 +177,57 @@ namespace GarageMVCSeleniumTests
             Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
             Assert.That(Driver.PageSource.Contains("Welcome"));
         }
+        [Test]
+        public void EditTest()
+        {
+            Driver.Navigate().GoToUrl(HomeUrl);
+            Driver.FindElement(By.LinkText("Park a vehicle")).Click();
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC127");
+            Driver.FindElement(By.Name("Brand")).SendKeys("Ford");
+            Driver.FindElement(By.Name("Model")).SendKeys("Model A");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("4");
+            Driver.FindElement(By.Name("ParkingSpotNumber")).SendKeys("5");
+            Driver.FindElement(By.XPath("//button[@type='submit']")).Submit();
+            IWebElement row = Driver.FindElement(By.XPath("//td[contains(text(), 'ABC127')]/.."));
+            Assert.That(row != null);
+            row.FindElement(By.LinkText("Details")).Click();
+            Driver.FindElement(By.LinkText("Edit")).Click();
+            Driver.FindElement(By.Name("Type")).SendKeys(Keys.Control + "a");
+            Driver.FindElement(By.Name("Type")).SendKeys(Keys.Delete);
+            Driver.FindElement(By.Name("Type")).SendKeys("Truck");
+            Driver.FindElement(By.Name("Color")).SendKeys(Keys.Control + "a");
+            Driver.FindElement(By.Name("Color")).SendKeys(Keys.Delete);
+            Driver.FindElement(By.Name("Color")).SendKeys("Red");
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys(Keys.Control + "a");
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys(Keys.Delete);
+            Driver.FindElement(By.Name("RegistrationNumber")).SendKeys("ABC128");
+            Driver.FindElement(By.Name("Brand")).SendKeys(Keys.Control + "a");
+            Driver.FindElement(By.Name("Brand")).SendKeys(Keys.Delete);
+            Driver.FindElement(By.Name("Brand")).SendKeys("Mercedes-Benz");
+            Driver.FindElement(By.Name("Model")).SendKeys(Keys.Control + "a");
+            Driver.FindElement(By.Name("Model")).SendKeys(Keys.Delete);
+            Driver.FindElement(By.Name("Model")).SendKeys("L1");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys(Keys.Control + "a");
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys(Keys.Delete);
+            Driver.FindElement(By.Name("NumberOfWheels")).SendKeys("6");
+            Driver.FindElement(By.XPath("//input[@type='submit']")).Submit();
+            Assert.That(Driver.PageSource.Contains("Welcome"));
+            Assert.That(Driver.FindElements(By.XPath("//td[contains(text(), 'ABC127')]/..")).Count, Is.EqualTo(0));
+            IWebElement updatedRow = Driver.FindElement(By.XPath("//td[contains(text(), 'ABC128')]/.."));
+            Assert.That(updatedRow != null);
+            updatedRow.FindElement(By.LinkText("Details")).Click();
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Type')]/following::dd")).Text, Is.EqualTo("Truck"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Color')]/following::dd")).Text, Is.EqualTo("Red"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'RegistrationNumber')]/following::dd")).Text, Is.EqualTo("ABC128"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Brand')]/following::dd")).Text, Is.EqualTo("Mercedes-Benz"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Model')]/following::dd")).Text, Is.EqualTo("L1"));
+            Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'NumberOfWheels')]/following::dd")).Text, Is.EqualTo("6"));
 
+
+
+
+
+
+        }
     }
 }
