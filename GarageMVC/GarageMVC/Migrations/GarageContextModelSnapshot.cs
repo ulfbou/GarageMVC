@@ -55,6 +55,9 @@ namespace GarageMVC.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
