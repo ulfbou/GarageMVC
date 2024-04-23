@@ -108,6 +108,26 @@ namespace GarageMVC.Controllers
 
 
 
+        // Get: Garage/Overview
+        [HttpGet]
+        public async Task<IActionResult> Overview()
+        {
+            var vehicles = await _context.ParkedVehicles.ToListAsync();
+
+            var model = new GarageOverviewViewModel
+            {
+                VehicleTypes = vehicles.Select(v => v.Type).Distinct().Select(s => " " + s).ToList(),
+                VehicleColors = vehicles.Select(v => v.Color).Distinct().Select(s => " " + s).ToList(),
+                VehicleBrands = vehicles.Select(v => v.Brand).Distinct().Select(s => " " + s).ToList(),
+                SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
+                SumOfPrice = Math.Round(vehicles.Select(v => v.TotalCost).Sum(), 2)
+
+            };
+
+            return View(model);
+        }
+
+
 
         // GET: Garage/Edit/5
         public async Task<IActionResult> Edit(int? id)
