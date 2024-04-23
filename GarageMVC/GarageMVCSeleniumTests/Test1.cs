@@ -222,12 +222,6 @@ namespace GarageMVCSeleniumTests
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Brand')]/following::dd")).Text, Is.EqualTo("Mercedes-Benz"));
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'Model')]/following::dd")).Text, Is.EqualTo("L1"));
             Assert.That(Driver.FindElement(By.XPath("//dt[contains(text(), 'NumberOfWheels')]/following::dd")).Text, Is.EqualTo("6"));
-
-
-
-
-
-
         }
     }
 }
