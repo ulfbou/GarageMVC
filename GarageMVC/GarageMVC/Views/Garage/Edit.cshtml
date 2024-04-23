@@ -55,6 +55,7 @@
                     <span asp-validation-for="NumberOfWheels" class="text-danger"></span>
                 </div>
                 <br />
+                @Html.HiddenFor(Model => Model.ParkingSpotNumber)
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
