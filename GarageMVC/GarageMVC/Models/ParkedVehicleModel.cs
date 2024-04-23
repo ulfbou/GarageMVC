@@ -32,8 +32,8 @@ namespace GarageMVC.Models
 		internal static double pricePerHour = 15.00;
 		internal string parkedAt = string.Empty;
 		[Required(ErrorMessage = "Parking Spot Number is required.")]
-		[Range(1, 100, ErrorMessage = "Parking Spot Number must be between 1 and 100.")]
+		[Range(1, 30, ErrorMessage = "Parking Spot Number must be between 1 and 30.")]
 		public int ParkingSpotNumber { get; set; }
-		private const int maxSpotNumber = 100;
-	}
+		internal static int maxSpotNumber = 30;
+    }
 }

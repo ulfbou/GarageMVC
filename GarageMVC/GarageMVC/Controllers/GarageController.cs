@@ -29,8 +29,15 @@ namespace GarageMVC.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
-            // return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
-            return View(new OverviewPageViewModel() { VehicleOverviews = vehicleOverviews });
+
+            int parkedVehiclesCount = vehicleOverviews.Count();
+            int placesRemaining = ParkedVehicleModel.maxSpotNumber - parkedVehiclesCount;
+
+            List<int> parkingSpotList =  vehicleOverviews.Select(pv => pv.ParkingSpotNumber).ToList();
+            
+
+
+            return View(new OverviewPageViewModel() { PlacesRemaining = placesRemaining, VehicleOverviews = vehicleOverviews});
         }
 
         // GET: Garage/Details/5

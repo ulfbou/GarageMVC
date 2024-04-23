@@ -21,9 +21,21 @@
     }
   
    <p>
-        @* There are @Model.PlacesRemaining spots remaining. *@
+        There are @Model.PlacesRemaining spots remaining.
 
     </p>
+
+    <div class="row mb-4">
+        @if (Model.VehicleOverviews != null)
+        {
+            for (int i = 1; i <= 30; i++) // Iterate from 1 to 30
+            {
+                string spotStatus = Model.VehicleOverviews.Any(pv => pv.ParkingSpotNumber == i) ? "occupied" : i.ToString();
+
+                <span class="col-sm-2"> @spotStatus</span>
+            }
+        }
+    </div>
 
 
     <div class="table-responsive">

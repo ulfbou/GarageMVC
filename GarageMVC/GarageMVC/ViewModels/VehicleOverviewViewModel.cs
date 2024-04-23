@@ -11,7 +11,8 @@ namespace GarageMVC.ViewModels
         public string? RegistrationNumber { get; }
         [DisplayName("Time of Parking")]
         public DateTime TimeStamp { get; }
-        public int ParkingSpotNumber { get; }
+        public int ParkingSpotNumber { get; }    
+
         public VehicleOverviewViewModel(ParkedVehicleModel parkedVehicle)
         {
             Id = parkedVehicle.Id;

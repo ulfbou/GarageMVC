@@ -2,7 +2,8 @@
 {
     public class OverviewPageViewModel
     {
-        public uint PlacesRemaining { get; init; }
+        // public uint PlacesRemaining { get; init; }
+        public int PlacesRemaining { get; init; }
         public IEnumerable<VehicleOverviewViewModel> VehicleOverviews { get; init; }
         public string? SituationSpecificMessage {  get; init; }
     }
