@@ -113,6 +113,7 @@ namespace GarageMVC.Controllers
         public async Task<IActionResult> Overview()
         {
             var vehicles = await _context.ParkedVehicles.ToListAsync();
+            var sumOfPrice = Math.Round(vehicles.Select(v => v.TotalCost).Sum(), 2);
 
             var model = new GarageOverviewViewModel
             {
@@ -120,7 +121,7 @@ namespace GarageMVC.Controllers
                 VehicleColors = vehicles.Select(v => v.Color).Distinct().Select(s => " " + s).ToList(),
                 VehicleBrands = vehicles.Select(v => v.Brand).Distinct().Select(s => " " + s).ToList(),
                 SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
-                SumOfPrice = Math.Round(vehicles.Select(v => v.TotalCost).Sum(), 2)
+                SumOfPrice = sumOfPrice
 
             };
 
