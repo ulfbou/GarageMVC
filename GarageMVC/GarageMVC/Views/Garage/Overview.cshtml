@@ -9,28 +9,40 @@
 <div>
     <h4>GarageOverviewViewModel</h4>
     <hr />
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VehicleTypes)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VehicleTypes)
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VehicleBrands)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VehicleBrands)
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.VehicleColors)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.VehicleColors)
+        </dd>
+    </dl>
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.SumOfAllWheels)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SumOfAllWheels)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.VehicleType)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.VehicleType)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.SumOfPrice)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.SumOfPrice)
         </dd>
     </dl>
 </div>
