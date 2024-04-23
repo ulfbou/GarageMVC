@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GarageMVC.Migrations
 {
     [DbContext(typeof(GarageContext))]
-    [Migration("20240417114514_init")]
-    partial class init
+    [Migration("20240423083228_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,12 +48,18 @@ namespace GarageMVC.Migrations
                     b.Property<int>("NumberOfWheels")
                         .HasColumnType("int");
 
+                    b.Property<int>("ParkingSpotNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<double>("TotalCost")
+                        .HasColumnType("float");
 
                     b.Property<string>("Type")
                         .IsRequired()

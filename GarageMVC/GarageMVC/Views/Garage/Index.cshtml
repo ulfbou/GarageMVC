@@ -5,12 +5,16 @@
 }
 
 
-<div "container h-100 d-flex justify-content-center">
+<div>
     <div class="jumbotron">
         <h1>Welcome</h1>
         <p>To the GarageMVC parking</p>
         <p>
             <a asp-controller="Garage" asp-action="Create">Park a vehicle</a>
+        </p>
+
+        <p>
+            <a asp-controller="Garage" asp-action="Overview">Garage Overview</a>
         </p>
     </div>
     @if(!String.IsNullOrEmpty(Model.SituationSpecificMessage))
@@ -21,13 +25,16 @@
     }
   
    <p>
-        There are @Model.PlacesRemaining spots remaining.
+        @* There are @Model.PlacesRemaining spots remaining. *@
+
     </p>
+
+  
     <div class="table-responsive">
     <form asp-controller="Garage" asp-action="SearchByRegistrationNumber">
         <label>Registration number</label>
         <input name="registrationNumber" />
-        <button type="button" class="btn btn-primary">Search</button>
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
     </div>
     <div class="table-responsive">
@@ -42,6 +49,9 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.VehicleOverviews.First().TimeStamp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VehicleOverviews.First().ParkingSpotNumber)
                 </th>
                 <th></th>
             </tr>
@@ -60,9 +70,13 @@
                         @Html.DisplayFor(modelItem => item.TimeStamp)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.ParkingSpotNumber)
+                    </td>
+                    <td>
                     <td>
                         <a asp-controller= "Garage" asp-action="Details" asp-route-id="@item.Id">Details</a>
                     </td>
+                 @*   *@
                 </tr>
             }
 
@@ -70,6 +84,7 @@
         </tbody>
     </table>
     </div>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </div>

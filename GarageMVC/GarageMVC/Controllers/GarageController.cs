@@ -10,6 +10,7 @@ using GarageMVC.Models;
 using GarageMVC.ViewModels;
 using NuGet.Packaging.Signing;
 using Humanizer;
+using System.Collections.Immutable;
 
 namespace GarageMVC.Controllers
 {
@@ -17,6 +18,8 @@ namespace GarageMVC.Controllers
     {
         private readonly GarageContext _context;
         private readonly VehicleConstants _constants;
+
+        public object SumOfAllWheels { get; private set; }
 
         public GarageController(GarageContext context, IConfiguration configuration)
         {
@@ -26,10 +29,11 @@ namespace GarageMVC.Controllers
         }
 
         // GET: Garage
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? situationSpecificMessage = null)
         {
             IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
-            return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
+            // return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
+            return View(new OverviewPageViewModel() { VehicleOverviews = vehicleOverviews, SituationSpecificMessage = situationSpecificMessage });
         }
 
         // GET: Garage/Details/5
@@ -67,6 +71,13 @@ namespace GarageMVC.Controllers
                 ModelState.AddModelError("RegistrationNumber", "Registration number must be unique");
             }
 
+            if (_context.ParkedVehicles.Any(v => v.ParkingSpotNumber == vehicle.ParkingSpotNumber))
+            {
+                ModelState.AddModelError("ParkingSpotNumber", "Spot number is occupied. Please choose another one.");
+                return View(vehicle);
+            }
+
+
             if (ModelState.IsValid)
             {
                 // vehicle.TimeStamp = DateTime.Now;
@@ -77,6 +88,28 @@ namespace GarageMVC.Controllers
 
             ViewBag.VehicleConstants = _constants;
             return View(vehicle);
+        }
+
+        // Get: Garage/Overview
+        [HttpGet]
+        public async Task<IActionResult> Overview()
+        {
+            var vehicles = await _context.ParkedVehicles.ToListAsync();
+
+            var model = new GarageOverviewViewModel
+            {
+                VehicleTypes = vehicles.Select(v => v.Type).Distinct().Select(s => " " + s).ToList(),
+                VehicleColors = vehicles.Select(v => v.Color).Distinct().Select(s => " " + s).ToList(),
+                VehicleBrands = vehicles.Select(v => v.Brand).Distinct().Select(s => " " + s).ToList(),
+                SumOfAllWheels = vehicles.Select(v => v.NumberOfWheels).Sum(),
+                /* SumOfPrice = vehicles.Select(v => v.TotalCost).Sum()*/
+            };
+
+
+
+
+
+            return View(model);
         }
 
         // Used for client side validation in conjunction with Remote attribute on ParkedVehicleModel
@@ -90,6 +123,9 @@ namespace GarageMVC.Controllers
             
             return Json(true);
         }
+
+
+
 
         // GET: Garage/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -112,7 +148,7 @@ namespace GarageMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels")] ParkedVehicleModel parkedVehicleModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Type,Color,RegistrationNumber,Brand,Model,NumberOfWheels, ParkingSpotNumber")] ParkedVehicleModel parkedVehicleModel)
         {
             if (id != parkedVehicleModel.Id)
             {
@@ -161,8 +197,9 @@ namespace GarageMVC.Controllers
             DateTime currentTime = DateTime.Now;
 
             TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
-            string cost = "";
-
+            // string cost = "";
+            double totalCost = 0;
+            totalCost = parkedVehicleModel.TotalCost;
 
             int hours = (int)ParkedDuration.TotalHours;
             int minutes = ParkedDuration.Minutes;
@@ -173,7 +210,7 @@ namespace GarageMVC.Controllers
             // then count as one hour
             if (hours < 1)
             {
-                cost = ParkedVehicleModel.pricePerHour + " SEK";
+                totalCost = ParkedVehicleModel.pricePerHour;
             }
             // if parked more than an hour
             else if ( hours >= 1)
@@ -183,18 +220,18 @@ namespace GarageMVC.Controllers
                 if (minutes < 30)
                 {
                     double roundHour = hours + 0.5;
-                    cost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2) + " SEK";
+                    totalCost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2);
                 }
                 // else count it as one hour extra
                 else if (minutes >= 30)
                 {
                     int roundHour = hours + 1;
-                    cost = (ParkedVehicleModel.pricePerHour * roundHour) + " SEK";
+                    totalCost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2);
                 }
             }
 
             parkedVehicleModel.ParkedDuration = parkedTime;
-            parkedVehicleModel.TotalCost = cost;
+            parkedVehicleModel.TotalCost = totalCost;
             parkedVehicleModel.parkedAt = parkedAt;
             return View(parkedVehicleModel);
         }
@@ -214,9 +251,23 @@ namespace GarageMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SearchByRegistrationNumber(string registrationNumber)
+        {
+            ParkedVehicleModel? searchResult = await _context.ParkedVehicles.FirstOrDefaultAsync(v => v.RegistrationNumber == registrationNumber);
+            if (searchResult == null)
+                return RedirectToAction(nameof(Index), new { situationSpecificMessage = "The registration number was not found." });
+            return RedirectToAction(nameof(Details), new { id = searchResult.Id });
+        }
+
+
         private bool ParkedVehicleModelExists(int id)
         {
             return _context.ParkedVehicles.Any(e => e.Id == id);
         }
+
+        // POST: Garage/Overview
+
+
     }
 }

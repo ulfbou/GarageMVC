@@ -23,13 +23,17 @@ namespace GarageMVC.Models
 		[Range(1, int.MaxValue, ErrorMessage = "Number of wheels must be a positive integer.")]
 		public int NumberOfWheels { get; set; } = default!;
 
-		[RegularExpression(@"^[A-Z]{3}[0-9]{3}$", ErrorMessage = "Registeration Number is combination of 3 letters and 3 numbers. ex: ABC123")]
+		[RegularExpression(@"^[a-zA-Z]{3}[0-9]{3}$", ErrorMessage = "Registeration Number is combination of 3 letters and 3 numbers. ex: ABC123")]
 		public string RegistrationNumber { get; set; } = string.Empty;
 		public DateTime TimeStamp { get; private set; } = DateTime.Now;
 
 		internal string ParkedDuration = string.Empty;
-		internal string TotalCost = string.Empty;
-		internal static int pricePerHour = 15;
+		public double TotalCost { get; set; }
+		internal static double pricePerHour = 15.00;
 		internal string parkedAt = string.Empty;
+		[Required(ErrorMessage = "Parking Spot Number is required.")]
+		[Range(1, 100, ErrorMessage = "Parking Spot Number must be between 1 and 100.")]
+		public int ParkingSpotNumber { get; set; }
+		private const int maxSpotNumber = 100;
 	}
 }
