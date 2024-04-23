@@ -8,13 +8,16 @@ namespace GarageMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var configuration = builder.Configuration;
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<VehicleConstants>();
-            builder.Services.AddDbContext<GarageContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            if (builder.Configuration["database"] == "inMemory")
+                builder.Services.AddDbContext<IGarageContext, GarageContext>(options =>
+                options.UseInMemoryDatabase(databaseName: "something"));
+            else
+                builder.Services.AddDbContext<IGarageContext, GarageContext>(options =>
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
