@@ -5,7 +5,7 @@
 }
 
 
-<div "container h-100 d-flex justify-content-center">
+<div>
     <div class="jumbotron">
         <h1>Welcome</h1>
         <p>To the GarageMVC parking</p>
@@ -22,7 +22,6 @@
   
    <p>
         There are @Model.PlacesRemaining spots remaining.
-
     </p>
 
     <div class="row mb-4">
@@ -85,9 +84,7 @@
                         <a asp-controller= "Garage" asp-action="Details" asp-route-id="@item.Id">Details</a>
                     </td>
                 </tr>
-            }
-
-             
+            }             
         </tbody>
     </table>
     </div>
