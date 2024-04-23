@@ -28,8 +28,8 @@ namespace GarageMVC.Models
 		public DateTime TimeStamp { get; private set; } = DateTime.Now;
 
 		internal string ParkedDuration = string.Empty;
-		internal int TotalCost;
-		internal static int pricePerHour = 15;
+		public double TotalCost { get; set; }
+		internal static double pricePerHour = 15.00;
 		internal string parkedAt = string.Empty;
 		[Required(ErrorMessage = "Parking Spot Number is required.")]
 		[Range(1, 100, ErrorMessage = "Parking Spot Number must be between 1 and 100.")]

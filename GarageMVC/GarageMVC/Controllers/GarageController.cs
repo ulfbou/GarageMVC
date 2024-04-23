@@ -32,7 +32,8 @@ namespace GarageMVC.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<VehicleOverviewViewModel> vehicleOverviews = await _context.ParkedVehicles.Select(pv => new VehicleOverviewViewModel(pv)).ToListAsync();
-            return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
+            // return View(new OverviewPageViewModel() { PlacesRemaining = 0, VehicleOverviews = vehicleOverviews });
+            return View(new OverviewPageViewModel() { VehicleOverviews = vehicleOverviews });
         }
 
         // GET: Garage/Details/5
@@ -195,7 +196,7 @@ namespace GarageMVC.Controllers
 
             TimeSpan ParkedDuration = currentTime.Subtract(parkedVehicleModel.TimeStamp);
             // string cost = "";
-            int totalCost = 0;
+            double totalCost = 0;
             totalCost = parkedVehicleModel.TotalCost;
 
             int hours = (int)ParkedDuration.TotalHours;
@@ -208,7 +209,6 @@ namespace GarageMVC.Controllers
             if (hours < 1)
             {
                 totalCost = ParkedVehicleModel.pricePerHour;
-                // cost = TotalCost + " SEK";
             }
             // if parked more than an hour
             else if ( hours >= 1)
@@ -218,15 +218,13 @@ namespace GarageMVC.Controllers
                 if (minutes < 30)
                 {
                     double roundHour = hours + 0.5;
-                    totalCost = (int)Math.Round(ParkedVehicleModel.pricePerHour * roundHour, 2);
-                    // cost = totalCost + " SEK";
+                    totalCost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2);
                 }
                 // else count it as one hour extra
                 else if (minutes >= 30)
                 {
                     int roundHour = hours + 1;
-                    totalCost = (ParkedVehicleModel.pricePerHour * roundHour);
-                    // cost = totalCost + " SEK";
+                    totalCost = Math.Round((ParkedVehicleModel.pricePerHour * roundHour), 2);
                 }
             }
 
